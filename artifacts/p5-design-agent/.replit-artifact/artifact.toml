@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "p5.js Design Coding Agent"
+version = "1.0.0"
+id = "artifacts/p5-design-agent"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25653
+
+[services.development]
+run = "pnpm --filter @workspace/p5-design-agent run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/p5-design-agent", "run", "build" ]
+publicDir = "artifacts/p5-design-agent/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25653"
+BASE_PATH = "/"

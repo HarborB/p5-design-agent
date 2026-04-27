@@ -25,3 +25,37 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+
+## Artifacts
+
+### p5.js Design Coding Agent (`artifacts/p5-design-agent`)
+
+A single-page React + Vite + TypeScript web app serving as a transparent workflow assistant for design students.
+
+**Tech stack:**
+- React + Vite + TypeScript + Tailwind CSS
+- Monaco Editor (`@monaco-editor/react`) for code editing
+- p5.js preview via injected iframe with CDN
+- No backend — all state in React + localStorage
+
+**Features:**
+- 5-step sequential workflow with progress bar
+- Step 1: Assignment brief analysis (tasks/requirements/constraints/deliverables)
+- Step 2–3: Design intent → visual rule system (units, parameters, transformation logic, shape grammar)
+- Step 4: Code Studio — Monaco editor + live p5.js iframe preview + rule-based debugger
+- Step 5: AI-use disclosure report with action log, authorship estimate, copy/download
+- Intelligent mock agent with moiré/triangle/Bridget Riley keyword detection
+- Full localStorage persistence of all session state
+- Sample brief and sample intent buttons for quick demo
+- README at `artifacts/p5-design-agent/README.md`
+
+**Key files:**
+- `src/lib/types.ts` — TypeScript interfaces
+- `src/lib/mockAgent.ts` — mock AI logic (structured for real API replacement)
+- `src/lib/storage.ts` — localStorage helpers
+- `src/components/AssignmentPanel.tsx` — Step 1
+- `src/components/IntentPanel.tsx` — Steps 2–3
+- `src/components/CodeStudio.tsx` — Step 4 (Monaco + preview + debug)
+- `src/components/PreviewFrame.tsx` — p5.js iframe sandbox
+- `src/components/ReportPanel.tsx` — Step 5
+- `src/components/ProgressBar.tsx` — workflow progress indicator
