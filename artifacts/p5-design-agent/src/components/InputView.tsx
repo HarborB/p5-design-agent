@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { generateP5Sketch } from "@/lib/api";
 import type { GenerationResult } from "@/lib/types";
+import harborLogo from "@assets/-95_1777323089787.png";
 
 const SAMPLE_PROMPTS = [
   "A Bridget Riley moiré pattern of black and white triangles with a wavy row offset.",
@@ -217,9 +218,16 @@ export default function InputView({
             </button>
           </div>
 
-          <p className="text-xs text-neutral-400 text-center mt-6">
-            Powered by GPT — generations may take 10–30 seconds.
-          </p>
+          <div className="flex flex-col items-center gap-5 mt-10">
+            <p className="text-sm text-neutral-600 text-center">
+              Harbor Bai © 2026. All Rights Reserved
+            </p>
+            <img
+              src={harborLogo}
+              alt="Harbor Bai"
+              className="h-12 w-auto opacity-90"
+            />
+          </div>
         </div>
       </main>
     </div>
