@@ -118,18 +118,23 @@ export default function IntentPanel({
   );
 }
 
-function RulesSection({ title, items, icon }: { title: string; items: string[]; icon: string }) {
+function RulesSection({ title, items, icon }: { title: string; items?: string[]; icon: string }) {
+  const safeItems = items ?? [];
   return (
     <div>
       <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{title}</h4>
-      <ul className="space-y-1">
-        {items.map((item, i) => (
-          <li key={i} className="flex items-start gap-2 text-xs text-gray-700">
-            <span className="flex-shrink-0 text-gray-400 font-mono">{icon}</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
+      {safeItems.length === 0 ? (
+        <p className="text-xs text-gray-400 italic">None</p>
+      ) : (
+        <ul className="space-y-1">
+          {safeItems.map((item, i) => (
+            <li key={i} className="flex items-start gap-2 text-xs text-gray-700">
+              <span className="flex-shrink-0 text-gray-400 font-mono">{icon}</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
