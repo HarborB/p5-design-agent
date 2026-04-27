@@ -78,30 +78,30 @@ export default function InputView({
 
   return (
     <div className="min-h-screen lg-bg flex flex-col p-3 gap-3">
-      <header className="lg-glass rounded-2xl px-5 py-3 flex items-center justify-between">
+      <header className="lg-glass rounded-3xl px-5 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div
             className="w-7 h-7 rounded-xl"
             style={{
               background: "linear-gradient(135deg, #fcd34d, #f59e0b)",
-              boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.35), 0 4px 12px -2px rgba(245,158,11,0.4)",
+              boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.55), 0 4px 12px -2px rgba(245,158,11,0.35)",
             }}
           />
           <div>
-            <h1 className="text-sm font-semibold tracking-tight">p5 Studio</h1>
-            <p className="text-xs text-neutral-400">Prompt-to-sketch design workstation</p>
+            <h1 className="text-sm font-semibold tracking-tight text-neutral-900">p5 Studio</h1>
+            <p className="text-xs text-neutral-500">Prompt-to-sketch design workstation</p>
           </div>
         </div>
-        <span className="text-xs text-neutral-400 font-mono uppercase tracking-wider">v2.0</span>
+        <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-[0.2em]">v2.0</span>
       </header>
 
       <main className="flex-1 flex items-center justify-center px-6 py-10">
         <div className="w-full max-w-3xl">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-semibold tracking-tight mb-3 text-neutral-50">
+            <h2 className="text-3xl font-semibold tracking-tight mb-3 text-neutral-900">
               Describe a sketch.
             </h2>
-            <p className="text-sm text-neutral-400 max-w-lg mx-auto leading-relaxed">
+            <p className="text-sm text-neutral-500 max-w-lg mx-auto leading-relaxed">
               Type a prompt and/or drop a reference image. The model will translate it into a tunable p5.js composition.
             </p>
           </div>
@@ -112,10 +112,10 @@ export default function InputView({
                 value={prompt}
                 onChange={(e) => onPromptChange(e.target.value)}
                 placeholder="e.g. A Bridget Riley moiré pattern of black and white triangles with a wavy row offset."
-                className="w-full h-28 bg-black/40 border border-white/[0.06] rounded-2xl p-4 text-sm text-neutral-100 placeholder-neutral-500 resize-none focus:outline-none focus:border-amber-500/60 focus:bg-black/60 transition-all"
+                className="w-full h-28 bg-black/[0.025] border border-black/[0.06] rounded-2xl p-4 text-sm text-neutral-900 placeholder-neutral-400 resize-none focus:outline-none focus:border-amber-400/70 focus:bg-white transition-all"
               />
               <div className="flex flex-wrap gap-2 mt-3">
-                <span className="text-xs text-neutral-500 mr-1 self-center">Try:</span>
+                <span className="text-xs text-neutral-400 mr-1 self-center">Try:</span>
                 {SAMPLE_PROMPTS.map((s) => (
                   <button
                     key={s}
@@ -142,17 +142,17 @@ export default function InputView({
               className={[
                 "rounded-2xl border-2 border-dashed p-4 transition-all cursor-pointer",
                 isDragging
-                  ? "border-amber-500/70 bg-amber-500/[0.08]"
+                  ? "border-amber-400 bg-amber-50"
                   : imageDataUrl
-                    ? "border-white/10 bg-black/30"
-                    : "border-white/[0.08] bg-black/20 hover:border-white/15 hover:bg-black/30",
+                    ? "border-black/10 bg-black/[0.02]"
+                    : "border-black/10 bg-black/[0.015] hover:border-black/20 hover:bg-black/[0.03]",
               ].join(" ")}
             >
               {imageDataUrl ? (
                 <div className="flex items-center gap-3">
-                  <img src={imageDataUrl} alt="reference" className="w-16 h-16 object-cover rounded-xl border border-white/10" />
+                  <img src={imageDataUrl} alt="reference" className="w-16 h-16 object-cover rounded-xl border border-black/10" />
                   <div className="flex-1">
-                    <p className="text-xs text-neutral-200">Reference image attached</p>
+                    <p className="text-xs text-neutral-800">Reference image attached</p>
                     <p className="text-xs text-neutral-500 mt-0.5">The model will use this as visual guidance.</p>
                   </div>
                   <button
@@ -160,17 +160,17 @@ export default function InputView({
                       e.stopPropagation();
                       onImageChange(null);
                     }}
-                    className="text-xs text-neutral-400 hover:text-red-400 px-2 py-1 rounded-lg transition-colors"
+                    className="lg-chip text-xs px-3 py-1.5"
                   >
                     Remove
                   </button>
                 </div>
               ) : (
                 <div className="text-center py-3">
-                  <p className="text-xs text-neutral-300">
-                    Drop a reference image here or <span className="text-amber-400 underline underline-offset-2">browse</span>
+                  <p className="text-xs text-neutral-700">
+                    Drop a reference image here or <span className="text-amber-700 font-medium underline underline-offset-2">browse</span>
                   </p>
-                  <p className="text-xs text-neutral-500 mt-1">PNG, JPG, WEBP · max 5 MB · optional</p>
+                  <p className="text-xs text-neutral-400 mt-1">PNG, JPG, WEBP · max 5 MB · optional</p>
                 </div>
               )}
               <input
@@ -188,7 +188,7 @@ export default function InputView({
             </div>
 
             {error && (
-              <div className="p-3 bg-red-950/40 border border-red-900/60 rounded-2xl text-xs text-red-300">
+              <div className="p-3 bg-red-50 border border-red-200 rounded-2xl text-xs text-red-700">
                 {error}
               </div>
             )}
@@ -217,7 +217,7 @@ export default function InputView({
             </button>
           </div>
 
-          <p className="text-xs text-neutral-500 text-center mt-6">
+          <p className="text-xs text-neutral-400 text-center mt-6">
             Powered by GPT — generations may take 10–30 seconds.
           </p>
         </div>

@@ -14,7 +14,7 @@ function buildHtml(sketchCode: string): string {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { width: 100%; height: 100%; background: #0a0a0a; }
+  html, body { width: 100%; height: 100%; background: #ffffff; }
   body { display: flex; align-items: center; justify-content: center; overflow: hidden; }
   canvas { display: block; max-width: 100%; max-height: 100vh; }
   #error-display {
@@ -95,7 +95,7 @@ export default function PreviewFrame({ code }: PreviewFrameProps) {
   }, []);
 
   return (
-    <div className="relative w-full h-full bg-black">
+    <div className="relative w-full h-full bg-white">
       <iframe
         ref={iframeRef}
         title="p5.js Preview"

@@ -144,51 +144,59 @@
 }
 
 /* ============================================================
-   Liquid Glass design system
-   Front-end-only visual layer. Use sparingly: glass belongs on
-   functional layers (nav, toolbars, control panels), not on
-   dense content surfaces.
+   Liquid Glass design system — Apple light theme
+   Front-end-only visual layer. Glass belongs on functional
+   layers (nav, toolbars, control panels). Content surfaces
+   stay solid. NEVER stack glass on glass.
    ============================================================ */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
   --lg-radius-sm: 10px;
   --lg-radius-md: 16px;
   --lg-radius-lg: 24px;
-  --lg-radius-xl: 32px;
+  --lg-radius-xl: 28px;
   --lg-radius-pill: 999px;
 
-  --lg-blur: 24px;
+  --lg-blur: 28px;
   --lg-saturate: 180%;
 
-  --lg-tint:        rgba(18, 18, 22, 0.55);
-  --lg-tint-strong: rgba(18, 18, 22, 0.72);
+  --lg-tint:        rgba(255, 255, 255, 0.62);
+  --lg-tint-strong: rgba(255, 255, 255, 0.78);
 
-  --lg-border:        rgba(255, 255, 255, 0.08);
-  --lg-border-strong: rgba(255, 255, 255, 0.14);
+  --lg-border:        rgba(0, 0, 0, 0.06);
+  --lg-border-strong: rgba(0, 0, 0, 0.10);
 
-  --lg-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
+  --lg-text-primary:   rgb(28, 28, 30);
+  --lg-text-secondary: rgb(60, 60, 67);
+  --lg-text-tertiary:  rgb(118, 118, 125);
+  --lg-text-muted:     rgb(170, 170, 175);
+
+  --lg-accent:       #f59e0b;
+  --lg-accent-soft:  #fbbf24;
+
+  --lg-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.70);
   --lg-shadow:
-    0 8px 32px -8px rgba(0, 0, 0, 0.45),
-    0 2px 8px -2px rgba(0, 0, 0, 0.30);
+    0 4px 18px -6px rgba(15, 18, 32, 0.10),
+    0 1px 3px -1px rgba(15, 18, 32, 0.05);
   --lg-shadow-lift:
-    0 20px 60px -20px rgba(0, 0, 0, 0.65),
-    0 4px 12px -4px rgba(0, 0, 0, 0.40);
+    0 14px 36px -10px rgba(15, 18, 32, 0.16),
+    0 2px 6px -2px rgba(15, 18, 32, 0.06);
 }
 
-/* Ambient backdrop — gives the glass material color to bend.
-   Static gradients, no perf cost. */
+/* Ambient backdrop — barely-there color for the glass to bend.
+   Calm Apple light: #F5F5F7 base with faint warm + cool washes. */
 .lg-bg {
-  background-color: #07070a;
+  background-color: #F5F5F7;
   background-image:
-    radial-gradient(60vw 60vh at 12% 8%,  rgba(245, 158, 11, 0.10), transparent 60%),
-    radial-gradient(70vw 70vh at 92% 96%, rgba(99, 102, 241, 0.09), transparent 65%),
-    radial-gradient(50vw 50vh at 50% 50%, rgba(244,  63,  94, 0.04), transparent 70%);
+    radial-gradient(60vw 60vh at 12% 8%,  rgba(255, 200, 150, 0.14), transparent 62%),
+    radial-gradient(70vw 70vh at 92% 96%, rgba(190, 210, 255, 0.18), transparent 66%),
+    radial-gradient(50vw 50vh at 50% 50%, rgba(255, 220, 230, 0.06), transparent 70%);
   background-attachment: fixed;
-  color: rgb(245, 245, 247);
+  color: var(--lg-text-primary);
 }
 
-/* Glass material — translucent, lensed, floating. */
+/* Glass material — translucent white, lensed, floating. */
 .lg-glass {
   background-color: var(--lg-tint);
   backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
@@ -206,7 +214,7 @@
 
 /* Solid floating panel — for content surfaces. NEVER use glass here. */
 .lg-panel {
-  background-color: rgba(15, 15, 18, 0.94);
+  background-color: rgba(255, 255, 255, 0.96);
   border: 1px solid var(--lg-border);
   box-shadow: var(--lg-highlight), var(--lg-shadow);
 }
@@ -214,56 +222,160 @@
 /* Sub-surface — for elements that sit INSIDE a glass container.
    Solid fill, no blur, to avoid stacking glass on glass. */
 .lg-subsurface {
-  background-color: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: background-color 140ms ease, border-color 140ms ease;
+  background-color: rgba(0, 0, 0, 0.025);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms cubic-bezier(0.2, 0.6, 0.2, 1);
 }
 .lg-subsurface:hover {
-  background-color: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.10);
+  background-color: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.06);
 }
+
+/* --- Motion: subtle lift on hover, soft press on active --- */
+.lg-press {
+  transition:
+    transform 140ms cubic-bezier(0.2, 0.6, 0.2, 1),
+    filter 140ms ease,
+    box-shadow 140ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+}
+.lg-press:hover:not(:disabled) { transform: translateY(-2px); }
+.lg-press:active:not(:disabled) { transform: scale(0.97); }
 
 /* Primary action — vivid pill with a soft glow. */
 .lg-primary {
-  background: linear-gradient(180deg, #fcd34d, #f59e0b);
+  background: linear-gradient(180deg, var(--lg-accent-soft), var(--lg-accent));
   color: #1a1208;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   box-shadow:
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.35),
-    0 10px 28px -8px rgba(245, 158, 11, 0.45),
-    0 2px 6px -2px rgba(0, 0, 0, 0.45);
-  transition: filter 140ms ease, transform 140ms ease;
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.55),
+    0 8px 22px -6px rgba(245, 158, 11, 0.35),
+    0 2px 6px -2px rgba(15, 18, 32, 0.10);
+  transition:
+    transform 140ms cubic-bezier(0.2, 0.6, 0.2, 1),
+    filter 140ms ease,
+    box-shadow 140ms ease;
 }
 .lg-primary:hover:not(:disabled) {
-  filter: brightness(1.05);
+  filter: brightness(1.04);
+  transform: translateY(-2px);
 }
 .lg-primary:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: scale(0.97);
 }
 .lg-primary:disabled {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.30);
-  border-color: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.30);
+  border-color: rgba(0, 0, 0, 0.06);
   box-shadow: none;
   cursor: not-allowed;
 }
 
-/* Pill chip — for sample prompts, tags, etc. */
+/* Pill chip — for sample prompts, tags, small toolbar buttons. */
 .lg-chip {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgb(220, 220, 224);
+  background-color: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--lg-border);
+  color: var(--lg-text-secondary);
   border-radius: var(--lg-radius-pill);
-  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+  transition:
+    transform 140ms cubic-bezier(0.2, 0.6, 0.2, 1),
+    background-color 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease,
+    box-shadow 140ms ease;
 }
-.lg-chip:hover {
-  background-color: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.16);
-  color: rgb(245, 245, 247);
+.lg-chip:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.10);
+  color: var(--lg-text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px -4px rgba(15, 18, 32, 0.10);
 }
+.lg-chip:active:not(:disabled) { transform: scale(0.97); }
 
-/* Status dot beside section labels. */
+/* Status dot beside section labels — gentle in light mode. */
 .lg-dot {
   width: 6px; height: 6px; border-radius: 999px;
-  box-shadow: 0 0 8px currentColor;
+  box-shadow: 0 0 6px currentColor;
+  opacity: 0.85;
+}
+
+/* --- Slider: thin minimal track, soft glow thumb --- */
+.lg-slider {
+  position: relative;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+.lg-slider-track {
+  position: absolute;
+  inset: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+}
+.lg-slider-fill {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--lg-accent-soft), var(--lg-accent));
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.40);
+}
+.lg-slider-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+.lg-slider-input:focus { outline: none; }
+.lg-slider-input::-webkit-slider-runnable-track {
+  height: 100%; background: transparent;
+}
+.lg-slider-input::-moz-range-track {
+  height: 100%; background: transparent; border: none;
+}
+.lg-slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: 0 1px 3px rgba(15, 18, 32, 0.18), 0 0 0 0 rgba(245, 158, 11, 0);
+  margin-top: 0;
+  transition: box-shadow 160ms ease, transform 140ms ease;
+}
+.lg-slider-input::-moz-range-thumb {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: 0 1px 3px rgba(15, 18, 32, 0.18);
+  transition: box-shadow 160ms ease, transform 140ms ease;
+}
+.lg-slider-input:hover::-webkit-slider-thumb,
+.lg-slider-input:active::-webkit-slider-thumb,
+.lg-slider-input:focus::-webkit-slider-thumb {
+  box-shadow:
+    0 1px 3px rgba(15, 18, 32, 0.18),
+    0 0 0 6px rgba(245, 158, 11, 0.18);
+}
+.lg-slider-input:hover::-moz-range-thumb,
+.lg-slider-input:active::-moz-range-thumb,
+.lg-slider-input:focus::-moz-range-thumb {
+  box-shadow:
+    0 1px 3px rgba(15, 18, 32, 0.18),
+    0 0 0 6px rgba(245, 158, 11, 0.18);
 }

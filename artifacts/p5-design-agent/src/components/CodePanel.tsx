@@ -51,16 +51,16 @@ export default function CodePanel({ code, highlightedAnnotation }: CodePanelProp
     <div className="h-full flex flex-col">
       <style>{`
         .p5-annotation-highlight {
-          background-color: rgba(245, 158, 11, 0.14) !important;
-          border-left: 2px solid rgb(245, 158, 11) !important;
+          background-color: rgba(245, 158, 11, 0.16) !important;
+          border-left: 2px solid rgb(217, 119, 6) !important;
         }
       `}</style>
-      <div className="px-4 py-2.5 border-b border-white/[0.06] flex items-center justify-between flex-shrink-0">
+      <div className="px-4 py-2.5 border-b border-black/[0.06] flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-2">
-          <span className="lg-dot text-amber-400" style={{ backgroundColor: "currentColor" }} />
-          <span className="text-xs font-semibold text-neutral-200 uppercase tracking-wider">sketch.js</span>
+          <span className="lg-dot text-amber-500" style={{ backgroundColor: "currentColor" }} />
+          <span className="text-xs font-semibold text-neutral-700 uppercase tracking-wider">sketch.js</span>
         </div>
-        <span className="text-xs text-neutral-500 font-mono">
+        <span className="text-xs text-neutral-400 font-mono">
           {code.split("\n").length} lines
         </span>
       </div>
@@ -69,7 +69,7 @@ export default function CodePanel({ code, highlightedAnnotation }: CodePanelProp
           height="100%"
           defaultLanguage="javascript"
           value={code}
-          theme="vs-dark"
+          theme="vs"
           onMount={handleMount}
           options={{
             readOnly: true,
