@@ -57,6 +57,23 @@ A professional prompt-to-sketch design workstation. Translate a text prompt and/
 - `src/components/Workstation.tsx` — Step 2 layout shell
 - `src/components/CodePanel.tsx`, `AnnotationPanel.tsx`, `ControlsPanel.tsx`, `PreviewFrame.tsx` — workstation panels
 
+**Visual layer — Liquid Glass design system (`src/index.css`):**
+- Inspired by Apple Liquid Glass: translucent floating UI material on functional layers only.
+- Tokens: `--lg-radius-{sm,md,lg,xl,pill}`, blur 24px / saturate 180%, dark tints, soft shadow + inner highlight.
+- Utility classes:
+  - `.lg-bg` — ambient gradient backdrop (warm amber + cool indigo + faint rose radials over `#07070a`). Apply to view roots.
+  - `.lg-glass` / `.lg-glass-strong` — translucent backdrop-blurred surface. Use ONLY on functional layers (top nav bars, bottom Parameter Rack, future modals/dropdowns).
+  - `.lg-panel` — solid floating surface (rgba(15,15,18,0.94)). Use for content surfaces (code, annotations, preview, composer card). NEVER use glass here.
+  - `.lg-subsurface` — solid fill for elements INSIDE a glass container (channel strips inside the Parameter Rack). Prevents glass-on-glass stacking.
+  - `.lg-primary` — amber gradient pill with soft glow (Translate button).
+  - `.lg-chip` — pill chip (sample prompts, small toolbar buttons).
+  - `.lg-dot` — glowing status dot beside section labels.
+- Layout pattern: view root has `lg-bg p-3 gap-3`; floating panels are separated by `gap-3` so the ambient backdrop shows through (visionOS-style).
+- Rules of use:
+  1. Glass only on functional layers — never on content panels.
+  2. Never stack glass on glass — use `.lg-subsurface` for elements inside a glass container.
+  3. Use the radius scale from the tokens above; default to `rounded-2xl` for panels, pill for buttons.
+
 ### API Server (`artifacts/api-server`)
 
 - `POST /api/p5/generate` — `{ prompt, image? }` → `{ title, summary, code, annotations[], parameters[] }`. Uses OpenAI SDK directly with env vars `AI_INTEGRATIONS_OPENAI_BASE_URL` and `AI_INTEGRATIONS_OPENAI_API_KEY` (provisioned via Replit AI Integrations).

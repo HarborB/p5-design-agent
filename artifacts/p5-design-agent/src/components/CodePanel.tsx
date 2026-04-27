@@ -48,17 +48,17 @@ export default function CodePanel({ code, highlightedAnnotation }: CodePanelProp
   }, [highlightedAnnotation, code]);
 
   return (
-    <div className="h-full flex flex-col bg-neutral-950 border-r border-neutral-800">
+    <div className="h-full flex flex-col">
       <style>{`
         .p5-annotation-highlight {
-          background-color: rgba(245, 158, 11, 0.12) !important;
+          background-color: rgba(245, 158, 11, 0.14) !important;
           border-left: 2px solid rgb(245, 158, 11) !important;
         }
       `}</style>
-      <div className="px-4 py-2.5 border-b border-neutral-800 flex items-center justify-between">
+      <div className="px-4 py-2.5 border-b border-white/[0.06] flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-amber-500" />
-          <span className="text-xs font-semibold text-neutral-300 uppercase tracking-wider">sketch.js</span>
+          <span className="lg-dot text-amber-400" style={{ backgroundColor: "currentColor" }} />
+          <span className="text-xs font-semibold text-neutral-200 uppercase tracking-wider">sketch.js</span>
         </div>
         <span className="text-xs text-neutral-500 font-mono">
           {code.split("\n").length} lines

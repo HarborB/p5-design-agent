@@ -142,3 +142,128 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+/* ============================================================
+   Liquid Glass design system
+   Front-end-only visual layer. Use sparingly: glass belongs on
+   functional layers (nav, toolbars, control panels), not on
+   dense content surfaces.
+   ============================================================ */
+:root {
+  color-scheme: dark;
+
+  --lg-radius-sm: 10px;
+  --lg-radius-md: 16px;
+  --lg-radius-lg: 24px;
+  --lg-radius-xl: 32px;
+  --lg-radius-pill: 999px;
+
+  --lg-blur: 24px;
+  --lg-saturate: 180%;
+
+  --lg-tint:        rgba(18, 18, 22, 0.55);
+  --lg-tint-strong: rgba(18, 18, 22, 0.72);
+
+  --lg-border:        rgba(255, 255, 255, 0.08);
+  --lg-border-strong: rgba(255, 255, 255, 0.14);
+
+  --lg-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
+  --lg-shadow:
+    0 8px 32px -8px rgba(0, 0, 0, 0.45),
+    0 2px 8px -2px rgba(0, 0, 0, 0.30);
+  --lg-shadow-lift:
+    0 20px 60px -20px rgba(0, 0, 0, 0.65),
+    0 4px 12px -4px rgba(0, 0, 0, 0.40);
+}
+
+/* Ambient backdrop — gives the glass material color to bend.
+   Static gradients, no perf cost. */
+.lg-bg {
+  background-color: #07070a;
+  background-image:
+    radial-gradient(60vw 60vh at 12% 8%,  rgba(245, 158, 11, 0.10), transparent 60%),
+    radial-gradient(70vw 70vh at 92% 96%, rgba(99, 102, 241, 0.09), transparent 65%),
+    radial-gradient(50vw 50vh at 50% 50%, rgba(244,  63,  94, 0.04), transparent 70%);
+  background-attachment: fixed;
+  color: rgb(245, 245, 247);
+}
+
+/* Glass material — translucent, lensed, floating. */
+.lg-glass {
+  background-color: var(--lg-tint);
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+  border: 1px solid var(--lg-border);
+  box-shadow: var(--lg-highlight), var(--lg-shadow);
+}
+.lg-glass-strong {
+  background-color: var(--lg-tint-strong);
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+  border: 1px solid var(--lg-border-strong);
+  box-shadow: var(--lg-highlight), var(--lg-shadow);
+}
+
+/* Solid floating panel — for content surfaces. NEVER use glass here. */
+.lg-panel {
+  background-color: rgba(15, 15, 18, 0.94);
+  border: 1px solid var(--lg-border);
+  box-shadow: var(--lg-highlight), var(--lg-shadow);
+}
+
+/* Sub-surface — for elements that sit INSIDE a glass container.
+   Solid fill, no blur, to avoid stacking glass on glass. */
+.lg-subsurface {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+.lg-subsurface:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+/* Primary action — vivid pill with a soft glow. */
+.lg-primary {
+  background: linear-gradient(180deg, #fcd34d, #f59e0b);
+  color: #1a1208;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35),
+    0 10px 28px -8px rgba(245, 158, 11, 0.45),
+    0 2px 6px -2px rgba(0, 0, 0, 0.45);
+  transition: filter 140ms ease, transform 140ms ease;
+}
+.lg-primary:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+.lg-primary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.lg-primary:disabled {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.30);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Pill chip — for sample prompts, tags, etc. */
+.lg-chip {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgb(220, 220, 224);
+  border-radius: var(--lg-radius-pill);
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+.lg-chip:hover {
+  background-color: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgb(245, 245, 247);
+}
+
+/* Status dot beside section labels. */
+.lg-dot {
+  width: 6px; height: 6px; border-radius: 999px;
+  box-shadow: 0 0 8px currentColor;
+}

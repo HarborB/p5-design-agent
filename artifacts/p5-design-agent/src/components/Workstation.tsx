@@ -41,34 +41,46 @@ export default function Workstation({
     selectedAnnotation !== null ? result.annotations[selectedAnnotation] : null;
 
   return (
-    <div className="h-screen flex flex-col bg-neutral-950 text-neutral-100 overflow-hidden">
-      <header className="flex-shrink-0 border-b border-neutral-800 px-5 py-2.5 flex items-center justify-between bg-neutral-950">
-        <div className="flex items-center gap-3">
+    <div className="h-screen flex flex-col lg-bg p-3 gap-3 overflow-hidden">
+      {/* Floating glass top bar */}
+      <header className="lg-glass rounded-2xl px-4 py-2.5 flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={onNewSketch}
-            className="w-7 h-7 rounded bg-gradient-to-br from-amber-300 to-amber-600 hover:opacity-80 transition-opacity flex items-center justify-center"
+            className="lg-chip w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
             title="New sketch"
+            aria-label="New sketch"
           >
-            <svg className="w-3.5 h-3.5 text-neutral-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <svg className="w-3.5 h-3.5 text-neutral-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <div>
-            <h1 className="text-sm font-semibold leading-tight truncate max-w-md">{result.title}</h1>
-            <p className="text-xs text-neutral-500 leading-tight truncate max-w-md">{result.summary}</p>
+          <div
+            className="w-7 h-7 rounded-xl flex-shrink-0"
+            style={{
+              background: "linear-gradient(135deg, #fcd34d, #f59e0b)",
+              boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.35), 0 4px 12px -2px rgba(245,158,11,0.4)",
+            }}
+          />
+          <div className="min-w-0">
+            <h1 className="text-sm font-semibold leading-tight truncate text-neutral-50">{result.title}</h1>
+            <p className="text-xs text-neutral-400 leading-tight truncate">{result.summary}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-500 font-mono uppercase tracking-wider">workstation</span>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-[0.2em] hidden md:inline">
+            workstation
+          </span>
         </div>
       </header>
 
-      <div className="flex-1 flex min-h-0">
-        <div className="w-[44%] flex-shrink-0 flex">
-          <div className="w-[58%]">
+      {/* Main floating panels — gaps reveal the ambient backdrop */}
+      <div className="flex-1 flex gap-3 min-h-0">
+        <div className="w-[44%] flex-shrink-0 flex gap-3">
+          <div className="w-[58%] lg-panel rounded-2xl overflow-hidden">
             <CodePanel code={liveCode} highlightedAnnotation={highlighted} />
           </div>
-          <div className="w-[42%]">
+          <div className="w-[42%] lg-panel rounded-2xl overflow-hidden">
             <AnnotationPanel
               annotations={result.annotations}
               selectedIndex={selectedAnnotation}
@@ -79,11 +91,11 @@ export default function Workstation({
           </div>
         </div>
 
-        <div className="flex-1 min-w-0 flex flex-col bg-black">
-          <div className="px-4 py-2.5 border-b border-neutral-800 flex items-center justify-between bg-neutral-950">
+        <div className="flex-1 min-w-0 lg-panel rounded-2xl overflow-hidden flex flex-col">
+          <div className="px-4 py-2.5 border-b border-white/[0.06] flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-rose-400" />
-              <span className="text-xs font-semibold text-neutral-300 uppercase tracking-wider">Live Preview</span>
+              <span className="lg-dot text-rose-400" style={{ backgroundColor: "currentColor" }} />
+              <span className="text-xs font-semibold text-neutral-200 uppercase tracking-wider">Live Preview</span>
             </div>
             <span className="text-xs text-neutral-500 font-mono">p5.js</span>
           </div>
@@ -93,6 +105,7 @@ export default function Workstation({
         </div>
       </div>
 
+      {/* Floating glass control rack */}
       <div className="flex-shrink-0 h-44">
         <ControlsPanel
           parameters={result.parameters}
