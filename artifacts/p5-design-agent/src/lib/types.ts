@@ -9,6 +9,7 @@ export interface VisualRules {
   visualUnits: string[];
   parameters: string[];
   transformationLogic: string[];
+  spatialOrganization: string[];
   interactionIdeas: string[];
   shapeGrammar: string;
 }

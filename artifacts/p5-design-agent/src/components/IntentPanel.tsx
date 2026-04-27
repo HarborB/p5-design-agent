@@ -95,6 +95,7 @@ export default function IntentPanel({
           <RulesSection title="Visual Units" items={rules.visualUnits} icon="◆" />
           <RulesSection title="Parameters" items={rules.parameters} icon="⚙" />
           <RulesSection title="Transformation Logic" items={rules.transformationLogic} icon="→" />
+          <RulesSection title="Spatial Organization" items={rules.spatialOrganization} icon="▦" />
           <RulesSection title="Interaction Ideas" items={rules.interactionIdeas} icon="↕" />
 
           <div>

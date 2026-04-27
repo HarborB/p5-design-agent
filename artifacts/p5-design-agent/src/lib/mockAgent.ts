@@ -126,6 +126,13 @@ export function generateVisualRules(
           "Alternate fill colour between black and white based on (row + col) % 2",
           "Apply a small random perturbation scaled by randomness to each apex for organic texture",
         ],
+        spatialOrganization: [
+          "Rectangular grid of N rows × M columns covering the full 600×600 canvas",
+          "Origin (0,0) at the top-left of the canvas; tiles laid out in row-major order",
+          "Each row shares a single waveOffset, producing horizontal banding",
+          "No padding between tiles — the grid is fully tessellated for moiré continuity",
+          "Sliders positioned below the canvas (y = height + 10) in a horizontal strip",
+        ],
         interactionIdeas: [
           "Slider: waveStrength — lets the student control moiré intensity in real time",
           "Slider: waveFrequency — changes how many wave crests appear across rows",
@@ -153,6 +160,11 @@ export function generateVisualRules(
           "Use trigonometric functions for smooth variation",
           "Interpolate between states using lerp() for smooth transitions",
         ],
+        spatialOrganization: [
+          "Elements arranged across the canvas using a regular grid or mathematical curve",
+          "Origin and spacing chosen to make positional rules easy to read",
+          "Composition centred or anchored to give the eye a clear focal structure",
+        ],
         interactionIdeas: [
           "Mouse position influences visual parameters",
           "Keyboard shortcuts for resetting or exporting",
@@ -167,7 +179,7 @@ export function generateVisualRules(
     timestamp: nowISO(),
     actionType: "generate_rules",
     userInput: intent.slice(0, 200) + (intent.length > 200 ? "…" : ""),
-    outputSummary: `Generated ${result.visualUnits.length} visual units, ${result.parameters.length} parameters, ${result.transformationLogic.length} transformation rules, ${result.interactionIdeas.length} interaction ideas.`,
+    outputSummary: `Generated ${result.visualUnits.length} visual units, ${result.parameters.length} parameters, ${result.transformationLogic.length} transformation rules, ${result.spatialOrganization.length} spatial-organization notes, ${result.interactionIdeas.length} interaction ideas.`,
   };
 
   return { result, log };
