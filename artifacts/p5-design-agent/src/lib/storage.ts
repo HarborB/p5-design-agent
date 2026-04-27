@@ -1,30 +1,6 @@
-import type { AppState, VisualRules, AssignmentAnalysis } from "./types";
+import type { AppState } from "./types";
 
-const STORAGE_KEY = "p5_design_agent_state";
-
-function migrateRules(rules: Partial<VisualRules> | null | undefined): VisualRules | null {
-  if (!rules) return null;
-  return {
-    visualUnits: rules.visualUnits ?? [],
-    parameters: rules.parameters ?? [],
-    transformationLogic: rules.transformationLogic ?? [],
-    spatialOrganization: rules.spatialOrganization ?? [],
-    interactionIdeas: rules.interactionIdeas ?? [],
-    shapeGrammar: rules.shapeGrammar ?? "",
-  };
-}
-
-function migrateAnalysis(
-  analysis: Partial<AssignmentAnalysis> | null | undefined
-): AssignmentAnalysis | null {
-  if (!analysis) return null;
-  return {
-    tasks: analysis.tasks ?? [],
-    requirements: analysis.requirements ?? [],
-    constraints: analysis.constraints ?? [],
-    deliverables: analysis.deliverables ?? [],
-  };
-}
+const STORAGE_KEY = "p5_design_agent_state_v2";
 
 export function saveState(state: Partial<AppState>): void {
   try {
@@ -40,13 +16,7 @@ export function loadState(): Partial<AppState> {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return {};
-    const parsed = JSON.parse(raw) as Partial<AppState>;
-    return {
-      ...parsed,
-      attachedFiles: parsed.attachedFiles ?? [],
-      assignmentAnalysis: migrateAnalysis(parsed.assignmentAnalysis),
-      visualRules: migrateRules(parsed.visualRules),
-    };
+    return JSON.parse(raw) as Partial<AppState>;
   } catch (e) {
     console.warn("Failed to load state from localStorage:", e);
     return {};

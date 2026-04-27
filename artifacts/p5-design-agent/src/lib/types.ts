@@ -1,62 +1,37 @@
-export interface AssignmentAnalysis {
-  tasks: string[];
-  requirements: string[];
-  constraints: string[];
-  deliverables: string[];
+export interface Annotation {
+  title: string;
+  description: string;
+  lineStart: number;
+  lineEnd: number;
 }
 
-export type AttachedFileKind = "pdf" | "image";
+export type ParameterType = "number" | "color";
 
-export interface AttachedFile {
-  id: string;
+export interface Parameter {
   name: string;
-  mimeType: string;
-  kind: AttachedFileKind;
-  size: number;
-  dataUrl: string;
-  addedAt: string;
+  label: string;
+  type: ParameterType;
+  min?: number;
+  max?: number;
+  step?: number;
+  default: number | string;
+  description: string;
 }
 
-export interface VisualRules {
-  visualUnits: string[];
-  parameters: string[];
-  transformationLogic: string[];
-  spatialOrganization: string[];
-  interactionIdeas: string[];
-  shapeGrammar: string;
+export interface GenerationResult {
+  title: string;
+  summary: string;
+  code: string;
+  annotations: Annotation[];
+  parameters: Parameter[];
 }
 
-export interface AIActionLog {
-  id: string;
-  timestamp: string;
-  actionType: "analyze_assignment" | "generate_rules" | "generate_scaffold" | "debug_code" | "generate_report";
-  userInput: string;
-  outputSummary: string;
-}
-
-export interface GeneratedReport {
-  overview: string;
-  promptsUsed: string[];
-  aiContributions: string[];
-  userContributions: string[];
-  authorshipEstimate: {
-    ai: number;
-    user: number;
-    rationale: string;
-  };
-  integrityStatement: string;
-}
-
-export type WorkflowStep = "assignment" | "intent" | "rules" | "code" | "report";
+export type Phase = "input" | "workstation";
 
 export interface AppState {
-  currentStep: WorkflowStep;
-  assignmentText: string;
-  attachedFiles: AttachedFile[];
-  designIntent: string;
-  assignmentAnalysis: AssignmentAnalysis | null;
-  visualRules: VisualRules | null;
-  generatedCode: string;
-  actionLogs: AIActionLog[];
-  report: GeneratedReport | null;
+  phase: Phase;
+  prompt: string;
+  imageDataUrl: string | null;
+  result: GenerationResult | null;
+  parameterValues: Record<string, number | string>;
 }
