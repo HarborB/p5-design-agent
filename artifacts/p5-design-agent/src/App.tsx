@@ -197,6 +197,10 @@ export default function App() {
                   rules={state.visualRules}
                   onCodeChange={(code) => updateState({ generatedCode: code })}
                   onScaffoldGenerated={handleScaffoldGenerated}
+                  onContinue={() => {
+                    markStepComplete("code");
+                    advanceToNextStep("code");
+                  }}
                 />
               )}
 

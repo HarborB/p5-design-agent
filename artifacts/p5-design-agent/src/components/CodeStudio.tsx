@@ -14,6 +14,7 @@ interface CodeStudioProps {
   rules: VisualRules | null;
   onCodeChange: (code: string) => void;
   onScaffoldGenerated: (code: string) => void;
+  onContinue: () => void;
 }
 
 export default function CodeStudio({
@@ -21,6 +22,7 @@ export default function CodeStudio({
   rules,
   onCodeChange,
   onScaffoldGenerated,
+  onContinue,
 }: CodeStudioProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDebugging, setIsDebugging] = useState(false);
@@ -214,6 +216,23 @@ export default function CodeStudio({
           <strong>Note:</strong> The generated scaffold is intentionally incomplete — it contains <code className="bg-gray-200 px-1 rounded">TODO</code> comments marking where you should modify parameters, complete logic, or express your own design decisions. The AI provides structure; the creative work is yours.
         </p>
       </div>
+
+      {code && (
+        <div className="flex items-center justify-between pt-2 border-t border-gray-200">
+          <p className="text-xs text-gray-500">
+            Done editing? Move on to generate your AI-use disclosure report.
+          </p>
+          <button
+            onClick={onContinue}
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-md hover:bg-gray-700 transition-colors"
+          >
+            Continue to Report
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

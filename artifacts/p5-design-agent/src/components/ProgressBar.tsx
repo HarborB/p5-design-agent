@@ -26,7 +26,9 @@ export default function ProgressBar({ currentStep, completedSteps, onStepClick }
           {STEPS.map((step, i) => {
             const isCompleted = completedSteps.has(step.key);
             const isCurrent = step.key === currentStep;
-            const isAccessible = i <= currentIndex || isCompleted;
+            const prevStep = i > 0 ? STEP_ORDER[i - 1] : null;
+            const prevDone = prevStep ? completedSteps.has(prevStep) : true;
+            const isAccessible = i <= currentIndex || isCompleted || prevDone;
 
             return (
               <div key={step.key} className="flex items-start flex-1 min-w-0">
