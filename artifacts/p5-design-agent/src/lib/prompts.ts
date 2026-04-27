@@ -30,6 +30,9 @@ export const USER_PROMPT_TEMPLATE = `INPUT:
 Assignment:
 {{assignment_text}}
 
+Attached Files:
+{{attached_files}}
+
 Design Intent:
 {{design_intent}}
 
@@ -94,9 +97,27 @@ A short, honest statement the student can adapt, listing what the AI generated (
 
 /**
  * Fill the user prompt template with the student's inputs.
+ *
+ * For attached PDFs and images, this currently inserts a text manifest of the
+ * filenames. When swapping in a real LLM, send each file's `dataUrl` as a
+ * multimodal content part (e.g. Anthropic `image` block, OpenAI `image_url`
+ * part, or Gemini `inlineData`) instead of stringifying the filenames here.
+ * The session keeps `attachedFiles` in `AppState` so the same files are
+ * available as memory for every later step (rules, scaffold, report).
  */
-export function buildUserPrompt(assignmentText: string, designIntent: string): string {
+export function buildUserPrompt(
+  assignmentText: string,
+  designIntent: string,
+  attachedFiles: { name: string; mimeType: string; size: number }[] = []
+): string {
+  const fileManifest =
+    attachedFiles.length === 0
+      ? "(none)"
+      : attachedFiles
+          .map((f) => `- ${f.name} (${f.mimeType}, ${(f.size / 1024).toFixed(1)} KB)`)
+          .join("\n");
   return USER_PROMPT_TEMPLATE
     .replace("{{assignment_text}}", assignmentText.trim() || "(no assignment provided)")
+    .replace("{{attached_files}}", fileManifest)
     .replace("{{design_intent}}", designIntent.trim() || "(no design intent provided)");
 }

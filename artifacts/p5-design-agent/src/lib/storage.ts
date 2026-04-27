@@ -43,6 +43,7 @@ export function loadState(): Partial<AppState> {
     const parsed = JSON.parse(raw) as Partial<AppState>;
     return {
       ...parsed,
+      attachedFiles: parsed.attachedFiles ?? [],
       assignmentAnalysis: migrateAnalysis(parsed.assignmentAnalysis),
       visualRules: migrateRules(parsed.visualRules),
     };

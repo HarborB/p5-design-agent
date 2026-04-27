@@ -5,6 +5,18 @@ export interface AssignmentAnalysis {
   deliverables: string[];
 }
 
+export type AttachedFileKind = "pdf" | "image";
+
+export interface AttachedFile {
+  id: string;
+  name: string;
+  mimeType: string;
+  kind: AttachedFileKind;
+  size: number;
+  dataUrl: string;
+  addedAt: string;
+}
+
 export interface VisualRules {
   visualUnits: string[];
   parameters: string[];
@@ -40,6 +52,7 @@ export type WorkflowStep = "assignment" | "intent" | "rules" | "code" | "report"
 export interface AppState {
   currentStep: WorkflowStep;
   assignmentText: string;
+  attachedFiles: AttachedFile[];
   designIntent: string;
   assignmentAnalysis: AssignmentAnalysis | null;
   visualRules: VisualRules | null;

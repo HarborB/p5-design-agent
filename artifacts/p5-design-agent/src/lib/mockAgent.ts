@@ -3,6 +3,7 @@ import type {
   VisualRules,
   AIActionLog,
   GeneratedReport,
+  AttachedFile,
 } from "./types";
 
 function uid(): string {
@@ -27,11 +28,22 @@ function detectMoireKeywords(text: string): boolean {
   );
 }
 
-export function analyzeAssignment(text: string): {
+export function analyzeAssignment(
+  text: string,
+  attachedFiles: AttachedFile[] = []
+): {
   result: AssignmentAnalysis;
   log: AIActionLog;
 } {
-  const isMoire = detectMoireKeywords(text);
+  const combinedText =
+    text +
+    " " +
+    attachedFiles.map((f) => f.name).join(" ");
+  const isMoire = detectMoireKeywords(combinedText);
+  const fileNote =
+    attachedFiles.length > 0
+      ? ` Reviewed ${attachedFiles.length} attached file(s): ${attachedFiles.map((f) => f.name).join(", ")}.`
+      : "";
 
   const result: AssignmentAnalysis = isMoire
     ? {
@@ -90,8 +102,13 @@ export function analyzeAssignment(text: string): {
     id: uid(),
     timestamp: nowISO(),
     actionType: "analyze_assignment",
-    userInput: text.slice(0, 200) + (text.length > 200 ? "…" : ""),
-    outputSummary: `Identified ${result.tasks.length} tasks, ${result.requirements.length} requirements, ${result.constraints.length} constraints, ${result.deliverables.length} deliverables.`,
+    userInput:
+      text.slice(0, 200) +
+      (text.length > 200 ? "…" : "") +
+      (attachedFiles.length > 0
+        ? ` [+${attachedFiles.length} file(s): ${attachedFiles.map((f) => f.name).join(", ")}]`
+        : ""),
+    outputSummary: `Identified ${result.tasks.length} tasks, ${result.requirements.length} requirements, ${result.constraints.length} constraints, ${result.deliverables.length} deliverables.${fileNote}`,
   };
 
   return { result, log };

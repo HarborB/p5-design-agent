@@ -15,6 +15,7 @@ function getDefaultState(): AppState {
   return {
     currentStep: saved.currentStep ?? "assignment",
     assignmentText: saved.assignmentText ?? "",
+    attachedFiles: saved.attachedFiles ?? [],
     designIntent: saved.designIntent ?? "",
     assignmentAnalysis: saved.assignmentAnalysis ?? null,
     visualRules: saved.visualRules ?? null,
@@ -65,7 +66,7 @@ export default function App() {
   }
 
   function handleAssignmentAnalyzed(analysis: AssignmentAnalysis) {
-    const { log } = analyzeAssignment(state.assignmentText);
+    const { log } = analyzeAssignment(state.assignmentText, state.attachedFiles);
     addLog(log);
     updateState({ assignmentAnalysis: analysis });
     markStepComplete("assignment");
@@ -103,6 +104,7 @@ export default function App() {
     setState({
       currentStep: "assignment",
       assignmentText: "",
+      attachedFiles: [],
       designIntent: "",
       assignmentAnalysis: null,
       visualRules: null,
@@ -118,7 +120,7 @@ export default function App() {
   const panelTitles: Record<WorkflowStep, { title: string; subtitle: string }> = {
     assignment: {
       title: "Assignment Brief",
-      subtitle: "Paste your assignment prompt or PDF text. The tool will break it down into tasks, requirements, constraints, and deliverables.",
+      subtitle: "Paste your assignment prompt and/or drop in your brief PDF and reference images. The tool will break it down into tasks, requirements, constraints, and deliverables — and remember the attachments for every later step.",
     },
     intent: {
       title: "Design Intent",
@@ -175,8 +177,10 @@ export default function App() {
               {currentStep === "assignment" && (
                 <AssignmentPanel
                   assignmentText={state.assignmentText}
+                  attachedFiles={state.attachedFiles}
                   analysis={state.assignmentAnalysis}
                   onTextChange={(text) => updateState({ assignmentText: text })}
+                  onAttachedFilesChange={(files) => updateState({ attachedFiles: files })}
                   onAnalyze={handleAssignmentAnalyzed}
                 />
               )}
@@ -282,6 +286,25 @@ export default function App() {
                 </li>
               </ul>
             </div>
+
+            {state.attachedFiles.length > 0 && (
+              <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Session Context</h3>
+                  <span className="text-xs text-gray-400">{state.attachedFiles.length} file{state.attachedFiles.length !== 1 ? "s" : ""}</span>
+                </div>
+                <p className="text-xs text-gray-500 mb-2">Attached in Step 1 — remembered across every step.</p>
+                <div className="space-y-1">
+                  {state.attachedFiles.map((f) => (
+                    <div key={f.id} className="text-xs text-gray-600 flex items-center gap-1.5 truncate">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0" />
+                      <span className="font-mono uppercase text-[10px] text-gray-400">{f.kind}</span>
+                      <span className="truncate">{f.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {state.actionLogs.length > 0 && (
               <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
