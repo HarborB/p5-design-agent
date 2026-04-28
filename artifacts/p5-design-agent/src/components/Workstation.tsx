@@ -23,9 +23,15 @@ export default function Workstation({
 }: WorkstationProps) {
   const [selectedAnnotation, setSelectedAnnotation] = useState<number | null>(null);
 
+  // Editable source. Resets whenever a new sketch is generated.
+  const [editedSource, setEditedSource] = useState(result.code);
+  useEffect(() => {
+    setEditedSource(result.code);
+  }, [result.code]);
+
   const { code: liveCode, unmatched } = useMemo(
-    () => applyParameterValuesWithReport(result.code, result.parameters, values),
-    [result.code, result.parameters, values],
+    () => applyParameterValuesWithReport(editedSource, result.parameters, values),
+    [editedSource, result.parameters, values],
   );
 
   useEffect(() => {
@@ -78,7 +84,11 @@ export default function Workstation({
       <div className="flex-1 flex gap-3 min-h-0">
         <div className="w-[44%] flex-shrink-0 flex gap-3">
           <div className="w-[58%] lg-panel rounded-3xl overflow-hidden">
-            <CodePanel code={liveCode} highlightedAnnotation={highlighted} />
+            <CodePanel
+              code={liveCode}
+              highlightedAnnotation={highlighted}
+              onCodeChange={setEditedSource}
+            />
           </div>
           <div className="w-[42%] lg-panel rounded-3xl overflow-hidden">
             <AnnotationPanel

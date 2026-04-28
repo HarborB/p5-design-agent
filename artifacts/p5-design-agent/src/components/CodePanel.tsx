@@ -8,9 +8,10 @@ type MonacoApi = Parameters<OnMount>[1];
 interface CodePanelProps {
   code: string;
   highlightedAnnotation: Annotation | null;
+  onCodeChange?: (code: string) => void;
 }
 
-export default function CodePanel({ code, highlightedAnnotation }: CodePanelProps) {
+export default function CodePanel({ code, highlightedAnnotation, onCodeChange }: CodePanelProps) {
   const editorRef = useRef<MonacoEditor | null>(null);
   const monacoRef = useRef<MonacoApi | null>(null);
   const decorationsRef = useRef<string[]>([]);
@@ -71,8 +72,9 @@ export default function CodePanel({ code, highlightedAnnotation }: CodePanelProp
           value={code}
           theme="vs"
           onMount={handleMount}
+          onChange={(value) => onCodeChange?.(value ?? "")}
           options={{
-            readOnly: true,
+            readOnly: !onCodeChange,
             minimap: { enabled: false },
             fontSize: 12,
             lineNumbers: "on",
@@ -81,6 +83,7 @@ export default function CodePanel({ code, highlightedAnnotation }: CodePanelProp
             renderLineHighlight: "all",
             automaticLayout: true,
             padding: { top: 8, bottom: 8 },
+            tabSize: 2,
           }}
         />
       </div>
